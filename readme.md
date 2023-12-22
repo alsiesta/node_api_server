@@ -97,3 +97,93 @@
    - Once your backend is ready, follow the steps outlined in the previous deployment guide to deploy it to Azure.
 
 This backend will now serve as the intermediary between your Angular frontend and Azure Blob Storage, handling all sensitive operations and credentials securely.
+
+_____
+### Deploy to Azure
+
+To shift your Node.js backend from local development to Azure cloud production, you'll need to deploy your application to an Azure App Service. This process involves several steps, including preparing your application for deployment, creating an Azure App Service, and deploying your code. Here's how to do it:
+
+### Step 1: Prepare Your Node.js Application
+
+1. **Ensure Your Application is Production-Ready:**
+   - Check that your application works correctly in your local environment.
+   - Remove any hardcoded values or development-only settings.
+
+2. **Add a `start` Script in `package.json`:**
+   - Azure App Service uses the `start` script to start your application.
+   - In your `package.json`, add a `start` script under the `scripts` section:
+     ```json
+     "scripts": {
+       "start": "node server.js"
+     }
+     ```
+
+3. **Use Environment Variables for Configuration:**
+   - Ensure that all configuration settings (like connection strings) are not hardcoded but are read from environment variables.
+
+### Step 2: Create an Azure App Service
+
+1. **Log in to the Azure Portal:**
+   - Go to the [Azure Portal](https://portal.azure.com/) and log in with your credentials.
+
+2. **Create a New App Service:**
+   - Click on "Create a resource".
+   - Search for and select "Web App".
+   - Click "Create".
+   - Fill in the necessary details:
+     - **Resource Group:** Create a new one or select an existing group.
+     - **Name:** Give a unique name to your web app.
+     - **Publish:** Select "Code".
+     - **Runtime stack:** Choose Node.js and select the version you're using.
+     - **Operating System:** Choose Linux or Windows (Linux is recommended for Node.js).
+     - **Region:** Select the region closest to your users.
+     - **App Service Plan:** Create a new one or select an existing plan. This determines the pricing tier.
+
+3. **Review and Create:**
+   - Review your settings and click "Create" to provision the new App Service. This process may take a few minutes.
+
+### Step 3: Deploy Your Application to Azure
+
+1. **Push code to Github:**
+   - Install the [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) if you haven't already.
+   - Open a terminal and log in to Azure by running `az login`.
+   - Navigate to your project directory.
+   - Initialize a local Git repository if you haven't already (using `git init`).
+   - Add and commit your changes (`git add .` and `git commit -m "Initial commit"`).
+   - You could use Azure CLI now to push the app to Azure, but let's rather prepare in Azure the Deployment from Github
+2. **Set Up Deployment in Azure Portal:**
+   - Log in to the Azure Portal
+   - Navigate to Your App Service you created for your Node.js application
+   - Set Up Deployment with GitHub:
+     - Click on "Deployment Center" in the sidebar.
+     - Choose "GitHub" as your source.
+     - You'll be prompted to authenticate with GitHub and grant Azure access to your repositories.
+     - Once authenticated, select the appropriate GitHub repository and branch for deployment
+   - Check the Deployment Status:
+     - In the Deployment Center, you can monitor the status of your deployments.
+     - If there's a deployment in progress, you can view logs and detailed information about the build and deployment process.
+
+### Step 4: Configure Environment Variables in Azure
+
+1. **Set Environment Variables:**
+   - In the Azure Portal, go to your App Service.
+   - Click on "Configuration" under "Settings".
+   - Add new application settings (environment variables) for your configuration, like your Azure Blob Storage connection string.
+
+### Step 5: Verify the Deployment
+
+1. **Check the App Service URL:**
+   - Once the deployment is complete, your application will be accessible via the URL provided by Azure (e.g., `https://<your-app-name>.azurewebsites.net`).
+   - Visit this URL in a browser to ensure your application is running correctly.
+
+### Step 6: Monitor and Debug
+
+1. **Monitor Your Application:**
+   - Azure provides monitoring and logging tools. Use them to keep track of your application's health and performance.
+   - You can find these tools in the Azure Portal under your App Service.
+
+2. **Set Up Alerts and Logging:**
+   - Configure alerts for any critical conditions.
+   - Set up logging for error tracking and diagnostics.
+
+By following these steps, you can successfully deploy your Node.js backend application to Azure and make it available for production use. This backend can then securely communicate with your Angular frontend and handle operations with Azure Blob Storage.
