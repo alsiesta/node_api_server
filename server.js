@@ -46,6 +46,7 @@ app.get('/createContainer/:containerName', async (req, res) => {
     }
 });
 
+
 app.get('/deleteContainer/:containerName', async (req, res) => {
     const containerName = req.params.containerName;
     try {
@@ -57,6 +58,7 @@ app.get('/deleteContainer/:containerName', async (req, res) => {
     }
 });
 
+
 app.get('/listContainers', async (req, res) => {
     let containers = [];
 
@@ -64,9 +66,17 @@ app.get('/listContainers', async (req, res) => {
     for await (const container of iter) {
         containers.push(container.name);
     }
-
     res.json(containers);
 });
+
+
+app.get('/api/config', (req, res) => {
+    res.json({
+      AZURE_STORAGE_CONNECTION_STRING: process.env.AZURE_STORAGE_CONNECTION_STRING
+    });
+});
+  
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
