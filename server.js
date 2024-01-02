@@ -2,15 +2,20 @@ const express = require('express');
 const cors = require('cors');
 
 const { BlobServiceClient } = require('@azure/storage-blob');
+
+// Load environment variables from .env file if it exists
 require('dotenv').config();
 
 const app = express();
+
+//needed for CORS locally
+app.use(cors());
+
 const port = process.env.PORT || 3000;
 
 // Load Azure storage configuration from environment variables
 const azureStorageConnectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
 
-app.use(cors());
 
 app.get('/', async (req, res) => {
     let output = `Account Name: ${blobServiceClient.accountName}<br>`;
